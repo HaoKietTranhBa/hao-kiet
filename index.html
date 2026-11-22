@@ -512,7 +512,7 @@ const S=Object.assign({coin:300,own:[0,1,2],sh:{},rp:0,best:0,pass:0,pt:[],snd:1
 const sv=()=>{try{localStorage.setItem(S.acct?"hktb_acct":"hktb",JSON.stringify(S))}catch(e){}};
 
 const day=new Date().toDateString();if(!S.q||S.q.d!=day)S.q={d:day,p:[0,0,0,0],c:[0,0,0,0]};
-const qp=(i,n=1)=>{S.q.p[i]+=n;sv()},lvl=i=>1+Math.floor((S.sh[i]||0)/3);
+const qp=(i,n=1)=>{S.q.p[i]+=n;(window.QM=window.QM||[0,0,0,0])[i]+=n;sv()},lvl=i=>1+Math.floor((S.sh[i]||0)/3);
 const tiers=[["Đồng",0],["Bạc",100],["Vàng",300],["Bạch Kim",600],["Kim Cương",1000]];
 const tierIdx=()=>{let k=0;tiers.forEach((t,i)=>{if(S.rp>=t[1])k=i});return k};
 // ===== âm thanh =====
@@ -678,13 +678,13 @@ $("#bU").disabled=!ok;$("#bE").disabled=turn!=0||busy||stunned;$("#sm").style.op
 $("#bE").onclick=()=>{if(turn==0&&!busy)myEnd()};$("#bU").onclick=()=>{myUlt()};
 $("#sm").onclick=()=>{S.mus=S.mus===0?1:0;sv();upd()};$("#sf").onclick=()=>{S.sfx=S.sfx===0?1:0;sv();upd()};
 $("#bQ").onclick=()=>{if(ul)return;if(!qq){qq=1;$("#bQ").textContent="XÁC NHẬN?";setTimeout(()=>{qq=0;$("#bQ").textContent="BỎ CUỘC"},2500)}else{qq=0;$("#bQ").textContent="BỎ CUỘC";fin(1)}};
-function start(m,h){mode=m;mH=h;const a=Math.random()*12|0;diff=m=="s"?streak:m=="r"?tierIdx()*2:1;
+function start(m,h){window.QM=[0,0,0,0];mode=m;mH=h;const a=Math.random()*12|0;diff=m=="s"?streak:m=="r"?tierIdx()*2:1;
 pl=[mk(150,h),mk(150,a)];pl[0].max=pl[0].hp;pl.forEach(p=>{if(p.h==7)p.mp=10});stunned=0;skip=-1;gid++;turn=0;tt=15;tot=1;g=gen();busy=false;ended=false;sel=null;aiSel=null;aiT=null;pop=new Set();show("bt");draw();upd()}
 function again(){if(pvp)return pvpRematch();start(mode,mH)}
 function fin(w){if(ended)return;ended=true;if(pvp&&!fin.rx)tx({t:"fin",w});const win=w==0;let c=win?200:50,ex="";if(pvp)ex=pvpRes(win,w);
 if(mode=="r"){const d=win?25:w<0?0:-15;S.rp=Math.max(0,S.rp+d);ex=`Điểm xếp hạng ${d>=0?"+":""}${d} → ${S.rp} (${tiers[tierIdx()][0]})`}
 if(mode=="s"){if(win){streak++;S.best=Math.max(S.best,streak);ex=`Chuỗi thắng: ${streak}`}else{ex=`Chuỗi kết thúc ở ${streak} · Kỷ lục ${S.best}`;streak=0}}
-snd(win?"w":"l");S.coin+=c;qp(0);if(win)qp(1);sv();
+snd(win?"w":"l");S.coin+=c;qp(0);if(win)qp(1);sv();if(S.acct&&sb&&mode!="p")srvFinish(w);
 $("#rs").innerHTML=`<div class="bx"><h1>${win?"CHIẾN THẮNG":w<0?"HÒA":"THẤT BẠI"}</h1><p>+${c} coin</p><p>${ex}</p><button class="btn" onclick="again()">${mode=="s"&&win?"ĐẤU TIẾP":"ĐẤU LẠI"}</button><button class="btn dk" onclick="menu()">VỀ MENU</button></div>`;$("#rs").classList.add("on")}
 // ===== màn hình =====
 function show(id){document.querySelectorAll(".scr").forEach(e=>e.classList.toggle("on",e.id==id));$("#rs").classList.remove("on")}
@@ -728,16 +728,16 @@ else body=`<div class="hist">${S.hist.length?S.hist.map(h=>{const x=typeof h=="s
 $("#sc").innerHTML=`<div class="bhd"><div class="br1"><button class="btn sm" onclick="menu()">← Quay lại</button><h2>TÚI ĐỒ</h2><span class="cp2"><span class="coin"></span>${S.coin}</span><span class="cp2 pu" id="teB">${GEM}${S.te}</span></div><div class="tabs">${["Mảnh Tướng","Đổi Mảnh","Lịch Sử"].map((n,k)=>`<button class="${bagTab==k?"on":""}" onclick="pBag(${k})">${n}</button>`).join("")}</div></div>`+body;show("sc");$("#sc").scrollTop=s0}
 function decAsk(i,n){let txt;if(i<0){const L=S.own.filter(k=>shc(k)>0),t=L.reduce((a,k)=>a+shc(k),0);if(!t)return;txt=`Phân giải ${t} mảnh trùng (${L.length} tướng) -> Nhận ${t} Tinh Hoa?`}else{n=Math.min(n,shc(i));if(!n)return;txt=`Phân giải ${n} mảnh ${H[i][0]} -> Nhận ${n} Tinh Hoa?`}
 $("#pp").innerHTML=`<div class="bx"><h2 style="flex:none;font-size:20px">Xác nhận</h2><p>${txt}</p><div class="gbt"><button class="btn" onclick="decDo(${i},${n||0})">Đồng ý</button><button class="btn dk" onclick="$('#pp').classList.remove('on')">Hủy</button></div></div>`;$("#pp").classList.add("on")}
-function decDo(i,n){const L=i<0?S.own.filter(k=>shc(k)>0).map(k=>[k,shc(k)]):[[i,Math.min(n,shc(i))]];let tot=0;const ids=[];L.forEach(([k,c])=>{if(!S.own.includes(k)||c<=0)return;S.sh[k]=shc(k)-c;tot+=c;ids.push(k);addH(`Phân giải ${c} mảnh ${H[k][0]} -> +${c} Tinh Hoa`)});
+function decDo(i,n){if(S.acct&&sb)return decSrv(i,n);const L=i<0?S.own.filter(k=>shc(k)>0).map(k=>[k,shc(k)]):[[i,Math.min(n,shc(i))]];let tot=0;const ids=[];L.forEach(([k,c])=>{if(!S.own.includes(k)||c<=0)return;S.sh[k]=shc(k)-c;tot+=c;ids.push(k);addH(`Phân giải ${c} mảnh ${H[k][0]} -> +${c} Tinh Hoa`)});
 S.te+=tot;sv();$("#pp").classList.remove("on");pBag();snd("G1");ids.slice(0,8).forEach((k,j)=>fly(document.querySelector(`.bc[data-i="${k}"]`),$("#teB"),j*60))}
-function exch(i,n){const c=3*n;if(S.own.includes(i)||S.te<c||n<1)return;S.te-=c;S.sh[i]=shc(i)+n;addH(`Đổi ${c} Tinh Hoa -> +${n} mảnh ${H[i][0]}`);let un=0;if(shc(i)>=10){S.sh[i]-=10;S.own.push(i);un=1;addH(`Đã mở tướng ${H[i][0]}!`)}
+function exch(i,n){if(S.acct&&sb)return exchSrv(i,n);const c=3*n;if(S.own.includes(i)||S.te<c||n<1)return;S.te-=c;S.sh[i]=shc(i)+n;addH(`Đổi ${c} Tinh Hoa -> +${n} mảnh ${H[i][0]}`);let un=0;if(shc(i)>=10){S.sh[i]-=10;S.own.push(i);un=1;addH(`Đã mở tướng ${H[i][0]}!`)}
 bagNs[i]=1;sv();$("#pp").classList.remove("on");pBag();snd("G1");fly($("#teB"),document.querySelector(`.bc[data-i="${i}"]`),0);if(un)setTimeout(()=>unlockPop(i),900)}
 function unlockPop(i){snd("G3");$("#pp").innerHTML=`<div class="bx pb"><img src="${HI[i]}"><h2 style="text-align:center">Đã mở ${H[i][0]}!</h2><button class="btn" onclick="$('#pp').classList.remove('on')">TUYỆT VỜI</button></div>`;$("#pp").classList.add("on");confetti($("#pp"),["#ffd23c","#e8322a","#ffb020","#b060ff","#3ac8ff"],80)}
 function fly(a,b,dl){if(!a||!b)return;const r=a.getBoundingClientRect(),t=b.getBoundingClientRect();for(let k=0;k<7;k++){const d=document.createElement("i");d.className="fy";const ox=(Math.random()-.5)*r.width*.8,oy=(Math.random()-.5)*r.height*.8;d.style.cssText=`left:${r.left+r.width/2+ox}px;top:${r.top+r.height/2+oy}px`;document.body.appendChild(d);
 setTimeout(()=>{d.style.transition="transform .75s cubic-bezier(.5,0,.8,.4),opacity .75s";d.style.transform=`translate(${t.left+t.width/2-r.left-r.width/2-ox}px,${t.top+t.height/2-r.top-r.height/2-oy}px) scale(.4)`;d.style.opacity=".25"},60+k*50+(dl||0));setTimeout(()=>d.remove(),1000+k*50+(dl||0))}}
 function pk(m){start(m,S.hero!=null&&S.own.includes(S.hero)?S.hero:S.own[0])}
 let gBusy=0,gmsg="",gR=null;
-function gacha(){if(gBusy)return;if(S.coin<300){gmsg="Không đủ coin (cần 300)";return pGacha()}
+function gacha(){if(gBusy)return;if(S.acct&&sb)return gachaSrv();if(S.coin<300){gmsg="Không đủ coin (cần 300)";return pGacha()}
 S.coin-=300;const r=Math.random()*100,un=H.map((_,k)=>k).filter(k=>!S.own.includes(k));let n=r<1?0:r<56?1:r<81?2:r<95?5:10,i,tier,dup=0,unl=0;
 if(n==0){if(un.length){i=un[Math.random()*un.length|0];S.own.push(i);tier=4}else{i=S.own[Math.random()*S.own.length|0];S.te+=10;dup=1;tier=3;addH(`Quay trúng tướng đã có ${H[i][0]} → +10 Tinh Hoa`)}}
 else{i=Math.random()*12|0;tier=n>=10?3:n==5?2:1;S.sh[i]=shc(i)+n;if(!S.own.includes(i)&&shc(i)>=10){S.sh[i]-=10;S.own.push(i);unl=1}}
@@ -808,8 +808,8 @@ const LKI=`<svg class="lki" viewBox="0 0 24 24"><rect x="4" y="10" width="16" he
 const STAR=`<svg viewBox="0 0 100 100"><defs><linearGradient id="gsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c8"/><stop offset=".55" stop-color="#f0b830"/><stop offset="1" stop-color="#a8721a"/></linearGradient></defs><path d="M50 2L59 41L98 50L59 59L50 98L41 59L2 50L41 41Z" fill="url(#gsg)" stroke="#6a3c06" stroke-width="2" stroke-linejoin="round"/><circle cx="50" cy="50" r="6" fill="#fff6c8" stroke="#8a5a10" stroke-width="1.5"/></svg>`;
 function pGacha(){pg("GACHA",`<div class="gx"><i class="gdc gcl a"></i><i class="gdc gcl b"></i><i class="gdc gcl c"></i><i class="gdc gcl d"></i><i class="gdc glt"></i><canvas id="gcv" class="gdc"></canvas><p class="gi">Đã có ${S.own.length}/12 tướng · Coin: ${S.coin} · Tinh Hoa: ${S.te}</p><div class="rt">1% Tướng mới - 55% 1 mảnh - 25% 2 mảnh - 14% 5 mảnh - 5% 10 mảnh</div><div class="gst" id="gst" data-t="1"><i class="gglow"></i><i class="grs"></i><i class="gring"></i><i class="gring r2"></i><div class="gcw" id="gcw"><div class="gcd" id="gcd"><div class="gbk"><i class="cr"></i>${STAR}<b>HÀO KIỆT</b></div><div class="gfr" id="gfr"></div></div></div></div><button class="btn gq" id="gq" ${gBusy?"disabled":""} onclick="gacha()">QUAY (300 coin)</button><p class="gi gm">${gmsg}</p><p class="gi gn">Đủ 10 mảnh sẽ tự động mở tướng · Mảnh dư và Tinh Hoa nằm trong Túi Đồ</p><button class="btn gb" onclick="pBag(0)">MỞ TÚI ĐỒ</button><div class="gr gx6">${H.slice(0,6).map((h,i)=>{const o=S.own.includes(i);return`<div class="hc gh${o?"":" lk"}"><i class="o o1"></i><i class="o o2"></i><i class="o o3"></i><i class="o o4"></i><div class="gim">${por(i)}</div><b>${h[0]}</b><span>${o?"Đã mở · dư "+shc(i):shc(i)+"/10 mảnh"}</span>${o?"":LKI}</div>`}).join("")}</div></div>`);gInit()}
 const QN=["Chơi 1 trận","Thắng 1 trận","Dùng Chiêu Cuối 1 lần","Ghép 4 hoặc 5 ô, 5 lần"],QT=[1,1,1,5],RW=[["c",150],["h",3],["c",200],["h",7],["c",300]];
-function cq(i){if(S.q.p[i]>=QT[i]&&!S.q.c[i]){S.q.c[i]=1;S.coin+=100;S.pass+=20;sv();pPass()}}
-function ct(i){if(S.pass>=40*(i+1)&&!S.pt.includes(i)){const r=RW[i];S.pt.push(i);if(r[0]=="c")S.coin+=r[1];else if(S.own.includes(r[1]))S.sh[r[1]]=(S.sh[r[1]]||0)+1;else S.own.push(r[1]);sv();pPass()}}
+function cq(i){if(S.acct&&sb)return cqSrv(i);if(S.q.p[i]>=QT[i]&&!S.q.c[i]){S.q.c[i]=1;S.coin+=100;S.pass+=20;sv();pPass()}}
+function ct(i){if(S.acct&&sb)return ctSrv(i);if(S.pass>=40*(i+1)&&!S.pt.includes(i)){const r=RW[i];S.pt.push(i);if(r[0]=="c")S.coin+=r[1];else if(S.own.includes(r[1]))S.sh[r[1]]=(S.sh[r[1]]||0)+1;else S.own.push(r[1]);sv();pPass()}}
 function pPass(){pg("BATTLE PASS",`<p style="text-align:center">Điểm Pass: ${S.pass}</p><h2>NHIỆM VỤ HÀNG NGÀY</h2>${QN.map((n,i)=>`<div class="q"><span>${n} (${Math.min(S.q.p[i],QT[i])}/${QT[i]})</span><button class="btn sm" ${S.q.p[i]>=QT[i]&&!S.q.c[i]?"":"disabled"} onclick="cq(${i})">${S.q.c[i]?"ĐÃ NHẬN":"+100 coin"}</button></div>`).join("")}<h2>PHẦN THƯỞNG</h2>${RW.map((r,i)=>`<div class="q"><span>Mốc ${40*(i+1)} điểm: ${r[0]=="c"?r[1]+" coin":"Tướng "+H[r[1]][0]}</span><button class="btn sm" ${S.pass>=40*(i+1)&&!S.pt.includes(i)?"":"disabled"} onclick="ct(${i})">${S.pt.includes(i)?"ĐÃ NHẬN":"NHẬN"}</button></div>`).join("")}`)}
 function pHelp(){const E=["Ghép 3/4/5: trừ 10/16/22 HP của AI","Hồi 10/14/18 HP cho bản thân","Ghép 3/4/5: +10%/+12%/+15% Khiên. Mỗi lần ghép thêm +1%, tối đa 30%. Mỗi lượt qua đi Khiên giảm 5%. Lửa và Độc xuyên 50% Khiên","Ghép 3: -8 HP + Đốt 3 HP mỗi 2 giây trong 4 giây. Ghép 4: -14 HP + Đốt mạnh hơn. Ghép 5: -20 HP + nổ 1 hàng","Ghép 3/4/5: +10/15/20 Mana. Đủ 80 Mana dùng Chiêu Cuối","Trừ 3 HP mỗi 1,5 giây. Lửa và Độc cộng dồn được"];
 pg("HƯỚNG DẪN",`<p>Chạm một ô rồi chạm ô kề bên để đổi chỗ. Ghép 3 ô giống nhau trở lên sẽ tính ngay lập tức. Mỗi lượt 15 giây, trận 16 lượt, mỗi bên 150 HP.</p>${TN.map((n,i)=>`<div class="hl">${IC[i]}<span><b>${n}:</b> ${E[i]}</span></div>`).join("")}<div class="hl"><img src="${SPI[0]}"><span><b>Ghép 4 - TUYỆT VỜI:</b> tạo ô Tia Sáng vàng, khi nổ sẽ quét sạch 1 hàng ngang hoặc dọc.</span></div><div class="hl"><img src="${SPI[1]}"><span><b>Ghép 5 - SIÊU PHẨM:</b> tạo ô Cầu Vồng, khi nổ sẽ quét sạch 1 hàng ngang và 1 hàng dọc.</span></div><p>Mỗi tướng có 1 chiêu cuối, bấm vào tướng để xem. Mảnh tướng đủ 10 sẽ mở tướng; mảnh dư đổi thành Tinh Hoa trong Túi Đồ. Coin chỉ nhận sau trận: thắng +200, thua +50.</p>`)}
@@ -893,10 +893,17 @@ auMsg("Đang xử lý...");let r;try{r=up?await sb.auth.signUp({email:em,passwor
 if(r.error){auMsg(esc(viErr(r.error.message)));return}
 if(up&&!r.data.session){auMsg("Đã gửi email xác nhận. Mở email, bấm liên kết rồi quay lại đăng nhập.");return}
 try{await loadProfile();menu()}catch(e){auMsg("Không tải được hồ sơ. Kiểm tra lại bước tạo bảng.")}}
-async function loadProfile(){const u=(await sb.auth.getUser()).data.user;if(!u)throw 0;
-const[p,h]=await Promise.all([sb.from("profiles").select("*").eq("id",u.id).single(),sb.from("heroes_owned").select("hero,shards").eq("user_id",u.id)]);
-if(p.error||h.error||!p.data)throw p.error||h.error||0;
-S.acct=u.id;S.coin=p.data.coin;S.te=p.data.essence;S.rp=p.data.rank_points;S.hero=p.data.hero;S.nick=p.data.nick;S.own=h.data.map(x=>x.hero);S.sh={};h.data.forEach(x=>{if(x.shards)S.sh[x.hero]=x.shards})}
+function applyState(d){S.nick=d.nick;S.coin=d.coin;S.te=d.essence;S.rp=d.rank_points;S.hero=d.hero;S.own=d.own||[];S.sh={};Object.keys(d.shards||{}).forEach(k=>S.sh[+k]=d.shards[k]);S.pass=d.pass_points;S.pt=d.pass_claimed||[];S.q={d:new Date().toDateString(),p:d.q_prog||[0,0,0,0],c:(d.q_done||[]).map(x=>x?1:0)}}
+async function syncState(){try{const r=await sb.rpc("get_state");if(r.data)applyState(r.data)}catch(e){}}
+async function loadProfile(){const u=(await sb.auth.getUser()).data.user;if(!u)throw 0;const r=await sb.rpc("get_state");if(r.error||!r.data)throw r.error||0;S.acct=u.id;applyState(r.data)}
+async function srvFinish(w){const q=window.QM||[0,0,0,0];window.QM=[0,0,0,0];try{await sb.rpc("finish_match",{p_mode:mode,p_result:w==0?1:w<0?-1:0,p_ult:q[2]>0,p_big:Math.min(q[3]|0,50)})}catch(e){}await syncState()}
+async function gachaSrv(){if(gBusy)return;if(S.coin<300){gmsg="Không đủ coin (cần 300)";return pGacha()}gBusy=1;let r;try{r=await sb.rpc("gacha_pull")}catch(e){r={error:e}}
+if(r.error||!r.data){gBusy=0;gmsg="Lỗi kết nối, chưa bị trừ coin. Thử lại.";await syncState();return pGacha()}
+const d=r.data;await syncState();gR={i:d.i,n:d.n,tier:d.tier,dup:d.dup?1:0,unl:d.unl?1:0};sv();spin()}
+async function decSrv(i,n){$("#pp").classList.remove("on");try{await sb.rpc("decompose",{p_h:i,p_n:n||0})}catch(e){}await syncState();pBag();snd("G1")}
+async function exchSrv(i,n){const c=3*n;if(S.own.includes(i)||S.te<c||n<1)return;let r;try{r=await sb.rpc("exchange",{p_h:i,p_n:n})}catch(e){r={error:e}}$("#pp").classList.remove("on");await syncState();bagNs[i]=1;pBag();snd("G1");if(r&&r.data===true)setTimeout(()=>unlockPop(i),900)}
+async function cqSrv(i){if(!(S.q.p[i]>=QT[i]&&!S.q.c[i]))return;try{await sb.rpc("claim_quest",{p_i:i})}catch(e){}await syncState();pPass()}
+async function ctSrv(i){if(!(S.pass>=40*(i+1)&&!S.pt.includes(i)))return;try{await sb.rpc("claim_pass",{p_i:i})}catch(e){}await syncState();pPass()}
 async function setHeroSrv(i){if(S.acct&&sb)try{await sb.rpc("set_hero",{h:i})}catch(e){}}
 async function nickSrv(){if(S.acct&&sb)try{await sb.from("profiles").update({nick:S.nick}).eq("id",S.acct)}catch(e){}}
 async function logout(){pvpLeave();try{await sb.auth.signOut()}catch(e){}S.acct=null;location.reload()}
