@@ -664,6 +664,36 @@ html,body{height:100dvh}
 .kbd i:first-child{position:absolute;inset:0;background:linear-gradient(90deg,#0000 0,#140402dd 12%,#220904f0 50%,#140402dd 88%,#0000 100%)}
 .kbd i:last-child{position:absolute;inset:0;background:linear-gradient(90deg,#0000,var(--c) 22%,#fff 50%,var(--c) 78%,#0000) top/100% 2px no-repeat,linear-gradient(90deg,#0000,var(--c) 22%,#fff 50%,var(--c) 78%,#0000) bottom/100% 2px no-repeat;filter:drop-shadow(0 0 6px var(--c))}
 @keyframes kbd{0%{opacity:0;transform:scaleX(.08) scaleY(.3)}9%{opacity:1;transform:scaleX(1.03) scaleY(1)}13%{transform:none}84%{opacity:1;transform:none}100%{opacity:0;transform:scaleX(1.06) scaleY(.5)}}
+
+/* ===== GACHA: bố cục cuộn được, gói thẻ chữ co giãn, nút không tràn ===== */
+#sc.pgs .gx{flex:none;min-height:0;height:auto;gap:12px}
+#sc .gx .gst{flex:none!important;height:min(76vw,320px)!important;min-height:0}
+#sc .gx .gcw{height:86cqh!important}
+#sc .gx .gx6{height:auto!important;grid-template-rows:none!important;grid-auto-rows:auto}
+#sc .gx .hc.gh{min-height:0}
+#sc .gx .hc.gh .gim{flex:none;aspect-ratio:1/1}
+#sc .gx .hc.gh b,#sc .gx .hc.gh span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gbk.gpk{border:0!important;background:none!important;box-shadow:none!important;padding:0;display:block!important;container-type:inline-size;overflow:visible}
+.gbk.gpk::before{display:none!important}
+.gpk .pka{border-radius:12px;gap:4cqw}
+.gpk .pka::before{inset:4cqw}
+.gpk .pka b{font-size:11.5cqw;white-space:nowrap;letter-spacing:.08em;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ffe9a8;filter:none}
+.gpk .pka small{font-size:5.2cqw;letter-spacing:.24em}
+.gpk .pkem svg{width:100%;filter:none}
+.gpk .pkzz{height:5cqw}
+#sc .gqr{width:100%;box-sizing:border-box;padding:0 2px}
+#sc .gqr .btn.gq{width:auto!important;min-width:0;flex:1 1 0!important;max-width:none!important;font-size:clamp(15px,4.8vw,19px);padding:11px 6px;margin:0}
+
+/* ===== ADMIN panel ===== */
+.adg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:4px 0 12px}
+.adk{background:linear-gradient(#2a1710,#160b08);border:1.5px solid #c9a24a;border-radius:12px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px;min-width:0}
+.adk small{font-size:11px;opacity:.8;letter-spacing:.04em}.adk b{font:700 26px/1.1 Georgia,serif;color:#ffe9a8}.adk em{font-style:normal;font-size:11px;color:#9fe3a8}
+.adc{background:#140a07;border:1.5px solid #6b4a1e;border-radius:12px;padding:10px;margin-bottom:12px}.adt{font-size:11px;letter-spacing:.14em;color:#e6c27a;margin-bottom:8px;text-align:center}
+.adb{display:flex;align-items:flex-end;gap:6px;height:120px}.adb>div{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px}
+.adb i{width:70%;background:linear-gradient(#ffd877,#b8741a);border-radius:4px 4px 0 0;display:block}.adb b{font-size:11px}.adb small{font-size:9px;opacity:.7}
+
+.aiw{display:flex;flex-direction:column;gap:10px}.ait{font-size:12px;letter-spacing:.2em;color:#e6c27a;text-align:center;margin-top:4px}
+.aiw .btn.big small{font-size:12px;opacity:.85;line-height:1.35;display:block;margin-top:3px}
 /* ===== Cấp độ · nhiệm vụ · xếp hạng · hồ sơ ===== */
 .mtl{display:flex;align-items:center;gap:8px;min-width:0}
 .lvc{display:flex;flex-direction:column;gap:3px;min-width:62px;padding:5px 10px 6px;border:2px solid #f2c862;border-radius:14px;background:linear-gradient(#3e160c,#1c0804);box-shadow:0 0 0 2px #2a0f08,0 3px 6px #000a;cursor:pointer}
@@ -981,18 +1011,18 @@ $("#bU").disabled=!ok;$("#bE").disabled=turn!=0||busy||stunned;$("#sm").style.op
 $("#bE").onclick=()=>{if(turn==0&&!busy)myEnd()};$("#bU").onclick=()=>{myUlt()};
 $("#sm").onclick=()=>{S.mus=S.mus===0?1:0;sv();upd()};$("#sf").onclick=()=>{S.sfx=S.sfx===0?1:0;sv();upd()};
 $("#bQ").onclick=()=>{if(ul)return;if(!qq){qq=1;$("#bQ").textContent="XÁC NHẬN?";setTimeout(()=>{qq=0;$("#bQ").textContent="BỎ CUỘC"},2500)}else{qq=0;$("#bQ").textContent="BỎ CUỘC";fin(1)}};
-function start(m,h){window.QM=[0,0,0,0,0,0];mode=m;mH=h;const a=Math.random()*12|0;diff=m=="s"?streak:m=="r"?tierIdx()*2:PDV[S.pd==null?1:S.pd];
-pl=[mk(150,h),mk(150,a)];pl[0].max=pl[0].hp;pl.forEach(p=>{if(p.h==7)p.mp=10});stunned=0;skip=-1;gid++;turn=0;tt=15;tot=1;g=gen();busy=false;ended=false;sel=null;aiSel=null;aiT=null;pop=new Set();show("bt");draw();upd();tutor()}
+function start(m,h){window.QM=[0,0,0,0,0,0];mode=m;mH=h;const a=Math.random()*12|0;diff=m=="s"?Math.min(streak+1,8):m=="r"?tierIdx()*2:m=="h"?3:2;
+pl=[mk(150,h),mk(150,a)];pl[0].max=pl[0].hp;pl.forEach(p=>{if(p.h==7)p.mp=10});const _mb=svSetup(m);stunned=0;skip=-1;gid++;turn=0;tt=15;tot=1;g=gen();busy=false;ended=false;sel=null;aiSel=null;aiT=null;pop=new Set();show("bt");draw();upd();tutor();if(_mb)setTimeout(()=>{bg(null,_mb[0],_mb[1],0,1)},350)}
 function again(){if(pvp)return pvpRematch();start(mode,mH)}
-function fin(w){if(ended)return;ended=true;if(pvp&&!fin.rx)tx({t:"fin",w});const win=w==0;let c=win?50:0,ex="";if(pvp)ex=pvpRes(win,w);
+function fin(w){if(ended)return;ended=true;if(pvp&&!fin.rx)tx({t:"fin",w});const win=w==0;let c=win?svCoin():0,ex="";if(pvp)ex=pvpRes(win,w);
 if(mode=="r"){const d=win?25:w<0?0:-15;S.rp=Math.max(0,S.rp+d);ex=`Điểm xếp hạng ${d>=0?"+":""}${d} → ${S.rp} (${tiers[tierIdx()][0]})`}
-if(mode=="s"){if(win){streak++;S.best=Math.max(S.best,streak);ex=`Chuỗi thắng: ${streak}`}else{ex=`Chuỗi kết thúc ở ${streak} · Kỷ lục ${S.best}`;streak=0}}
+if(mode=="s"){if(win){streak++;S.best=Math.max(S.best,streak);window.SVhp=pl[0].hp;c=svCoin();ex=`Đã vượt ${streak} ải · Máu còn ${pl[0].hp}/${pl[0].max} · Kỷ lục ${S.best}`}else{ex=`Hành trình dừng ở ải ${streak+1} · Đã vượt ${streak} ải · Kỷ lục ${S.best}`;streak=0;window.SVhp=0}}if(mode=="h")ex=window.HMOD?"Luật: "+window.HMOD:"";
 snd(win?"w":"l");S.coin+=c;qp(0);if(win)qp(1);if(mode=="p")qp(4);if(win&&(mode=="r"||mode=="p"))qp(5);if(!S.acct)S.xp=(S.xp||0)+(win?30:12);sv();if(S.acct&&sb&&mode!="p")srvFinish(w);else if(S.acct&&sb)pvpReport(w);
-$("#rs").innerHTML=`<div class="bx"><h1>${win?"CHIẾN THẮNG":w<0?"HÒA":"THẤT BẠI"}</h1><p>${c>0?"+"+c+" coin":"Không nhận coin"}</p><p>${ex}</p><div id="rsx" class="rsx"></div><button class="btn" onclick="again()">${mode=="s"&&win?"ĐẤU TIẾP":"ĐẤU LẠI"}</button><button class="btn dk" onclick="menu()">VỀ MENU</button></div>`;$("#rs").classList.add("on")}
+$("#rs").innerHTML=`<div class="bx"><h1>${win?"CHIẾN THẮNG":w<0?"HÒA":"THẤT BẠI"}</h1><p>${c>0?"+"+c+" coin":"Không nhận coin"}</p><p>${ex}</p><div id="rsx" class="rsx"></div><button class="btn" onclick="again()">${mode=="s"&&win?"ẢI TIẾP THEO":mode=="s"?"CHƠI LẠI TỪ ĐẦU":"ĐẤU LẠI"}</button><button class="btn dk" onclick="menu()">VỀ MENU</button></div>`;$("#rs").classList.add("on")}
 // ===== màn hình =====
 function show(id){document.querySelectorAll(".scr").forEach(e=>e.classList.toggle("on",e.id==id));$("#rs").classList.remove("on")}
 const coinH=()=>`<span class="coin"></span>${S.coin}`;
-function pg(t,b){ended=true;$("#sc").className="scr"+(/class="gx/.test(b)?"":" pgs");$("#sc").innerHTML=`<div class="hd"><button class="btn sm" onclick="menu()">‹ MENU</button><h2>${t}</h2><b>${coinH()}</b></div>`+b;show("sc")}
+function pg(t,b){ended=true;$("#sc").className="scr pgs";$("#sc").innerHTML=`<div class="hd"><button class="btn sm" onclick="menu()">‹ MENU</button><h2>${t}</h2><b>${coinH()}</b></div>`+b;show("sc")}
 const WALL='<svg class="wall" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="skw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a0a06"/><stop offset=".65" stop-color="#b8501e"/><stop offset="1" stop-color="#f2a84a"/></linearGradient><pattern id="bt2" width="24" height="14" patternUnits="userSpaceOnUse"><rect width="12" height="14" fill="#241008"/></pattern></defs><rect width="400" height="300" fill="url(#skw)"/><circle cx="200" cy="200" r="70" fill="#ffd88a" opacity=".45"/><g fill="#241008"><rect y="226" width="400" height="14" fill="url(#bt2)"/><rect y="240" width="400" height="60"/><rect x="150" y="172" width="100" height="68"/><path d="M134 176q66-8 132 0l-10-16q-56-8-112 0z"/><rect x="168" y="132" width="64" height="30"/><path d="M152 134q48-8 96 0l-10-16q-38-6-76 0z"/><path d="M192 118l8-18 8 18z"/><rect x="40" y="196" width="40" height="44"/><path d="M32 198q28-6 56 0l-8-12q-20-5-40 0z"/><rect x="320" y="196" width="40" height="44"/><path d="M312 198q28-6 56 0l-8-12q-20-5-40 0z"/></g><path d="M180 240v-28a20 20 0 0140 0v28z" fill="#0c0302"/><g fill="#ffb84a"><rect x="190" y="142" width="6" height="10"/><rect x="204" y="142" width="6" height="10"/><rect x="55" y="210" width="6" height="9"/><rect x="335" y="210" width="6" height="9"/></g></svg>';
 const FLG=x=>`<svg class="flg" style="${x}" viewBox="0 0 60 80"><rect x="3" y="2" width="3.500" height="76" fill="#6b3a12"/><g class="wv2"><rect x="6.500" y="6" width="48" height="32" fill="#d4261c"/><polygon points="30.5,12 32.9,18.6 40,18.9 34.4,23.3 36.4,30.1 30.5,26.2 24.6,30.1 26.6,23.3 21,18.9 28.1,18.6" fill="#ffd23c"/></g></svg>`;
 const SV=['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 010 6M18.500 6.500a8 8 0 010 11"/></svg>','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9zM17 9l5 6M22 9l-5 6"/></svg>'];
@@ -1108,7 +1138,7 @@ gmsg=R.tier==4?`Đã nhận tướng mới: ${h[0]}`:R.dup?"Nhận 10 Tinh Hoa":
 g.className="on";g.innerHTML=`<div id="gres"><h2>${T}</h2><p>${info}</p><div class="gbt">${R.tier==4?`<button class="btn" onclick="gClose()">NHẬN TƯỚNG</button><button class="btn" onclick="gClose(1)">QUAY TIẾP</button>`:`<button class="btn" onclick="gClose(1)">QUAY TIẾP</button><button class="btn dk" onclick="gClose()">ĐÓNG</button>`}</div></div>`;requestAnimationFrame(()=>{const e=$("#gres");e&&e.classList.add("on")})}
 const LKI=`<svg class="lki" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="#e8b84a" stroke="#5a3204" stroke-width="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#e8b84a" stroke-width="2.4"/><circle cx="12" cy="15.5" r="1.8" fill="#5a3204"/></svg>`;
 const STAR=`<svg viewBox="0 0 100 100"><defs><linearGradient id="gsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c8"/><stop offset=".55" stop-color="#f0b830"/><stop offset="1" stop-color="#a8721a"/></linearGradient></defs><path d="M50 2L59 41L98 50L59 59L50 98L41 59L2 50L41 41Z" fill="url(#gsg)" stroke="#6a3c06" stroke-width="2" stroke-linejoin="round"/><circle cx="50" cy="50" r="6" fill="#fff6c8" stroke="#8a5a10" stroke-width="1.5"/></svg>`;
-function pGacha(){pg("GACHA",`<div class="gx"><i class="gdc gcl a"></i><i class="gdc gcl b"></i><i class="gdc gcl c"></i><i class="gdc gcl d"></i><i class="gdc glt"></i><canvas id="gcv" class="gdc"></canvas><p class="gi">Đã có ${S.own.length}/12 tướng · Coin: ${S.coin} · Tinh Hoa: ${S.te}</p><div class="rt">1% Tướng mới - 55% 1 mảnh - 25% 2 mảnh - 14% 5 mảnh - 5% 10 mảnh</div><div class="gst" id="gst" data-t="1"><i class="gglow"></i><i class="grs"></i><i class="gring"></i><i class="gring r2"></i><div class="gcw" id="gcw"><div class="gcd" id="gcd"><div class="gbk"><i class="cr"></i>${STAR}<b>HÀO KIỆT</b></div><div class="gfr" id="gfr"></div></div></div></div><div class="gqr"><button class="btn gq" id="gq" ${gBusy?"disabled":""} onclick="gacha()">QUAY ×1<small>300 coin</small></button><button class="btn gq g10" ${gBusy||S.coin<3000?"disabled":""} onclick="gachaN(10)">QUAY ×10<small>3000 coin</small></button></div><p class="gi gm">${gmsg}</p><p class="gi gn">Đủ 20 mảnh sẽ tự động mở tướng · Mảnh dư và Tinh Hoa nằm trong Túi Đồ</p><button class="btn gb" onclick="pBag(0)">MỞ TÚI ĐỒ</button><div class="gr gx6">${H.map((h,i)=>{const o=S.own.includes(i);return`<div class="hc gh${o?"":" lk"}"><i class="o o1"></i><i class="o o2"></i><i class="o o3"></i><i class="o o4"></i><div class="gim">${por(i)}</div><b>${h[0]}</b><span>${o?"Đã mở · dư "+shc(i):shc(i)+"/20 mảnh"}</span>${o?"":LKI}</div>`}).join("")}</div></div>`);gInit()}
+function pGacha(){pg("GACHA",`<div class="gx"><i class="gdc gcl a"></i><i class="gdc gcl b"></i><i class="gdc gcl c"></i><i class="gdc gcl d"></i><i class="gdc glt"></i><canvas id="gcv" class="gdc"></canvas><p class="gi">Đã có ${S.own.length}/12 tướng · Coin: ${S.coin} · Tinh Hoa: ${S.te}</p><div class="rt">1% Tướng mới - 55% 1 mảnh - 25% 2 mảnh - 14% 5 mảnh - 5% 10 mảnh</div><div class="gst" id="gst" data-t="1"><i class="gglow"></i><i class="grs"></i><i class="gring"></i><i class="gring r2"></i><div class="gcw" id="gcw"><div class="gcd" id="gcd"><div class="gbk gpk">${PKART}</div><div class="gfr" id="gfr"></div></div></div></div><div class="gqr"><button class="btn gq" id="gq" ${gBusy?"disabled":""} onclick="gacha()">QUAY ×1<small>300 coin</small></button><button class="btn gq g10" ${gBusy||S.coin<3000?"disabled":""} onclick="gachaN(10)">QUAY ×10<small>3000 coin</small></button></div><p class="gi gm">${gmsg}</p><p class="gi gn">Đủ 20 mảnh sẽ tự động mở tướng · Mảnh dư và Tinh Hoa nằm trong Túi Đồ</p><button class="btn gb" onclick="pBag(0)">MỞ TÚI ĐỒ</button><div class="gr gx6">${H.map((h,i)=>{const o=S.own.includes(i);return`<div class="hc gh${o?"":" lk"}"><i class="o o1"></i><i class="o o2"></i><i class="o o3"></i><i class="o o4"></i><div class="gim">${por(i)}</div><b>${h[0]}</b><span>${o?"Đã mở · dư "+shc(i):shc(i)+"/20 mảnh"}</span>${o?"":LKI}</div>`}).join("")}</div></div>`);gInit()}
 const QN=["Chơi 3 trận","Thắng 2 trận","Dùng Chiêu Cuối 2 lần","Ghép 4 hoặc 5 ô, 5 lần","Đấu online 1 trận","Thắng 1 trận xếp hạng"],QT=[3,2,2,5,1,1],QR=[100,100,100,100,150,150],RW=[["c",150],["h",3],["c",200],["h",7],["c",300]];
 function cq(i){if(S.acct&&sb)return cqSrv(i);if(S.q.p[i]>=QT[i]&&!S.q.c[i]){S.q.c[i]=1;S.coin+=QR[i];S.pass+=20;S.xp=(S.xp||0)+20;sv();pPass()}}
 function ct(i){if(S.acct&&sb)return ctSrv(i);if(S.pass>=40*(i+1)&&!S.pt.includes(i)){const r=RW[i];S.pt.push(i);if(r[0]=="c")S.coin+=r[1];else if(S.own.includes(r[1]))S.sh[r[1]]=(S.sh[r[1]]||0)+1;else S.own.push(r[1]);sv();pPass()}}
@@ -1254,10 +1284,19 @@ el.innerHTML=h}
 function pProfile(){const x=xpInfo(),h=S.hero!=null&&S.own.includes(S.hero)?S.hero:S.own[0],tot=(S.tw|0)+(S.tl|0);let top=-1,tp=0;Object.keys(S.hs||{}).forEach(k=>{if(S.hs[k][0]>tp){tp=S.hs[k][0];top=+k}});
 pg("HỒ SƠ",`<div class="pfb big"><div class="av" onclick="pAvatar()">${avt(avH(),tIx(Math.max(S.prp|0,S.rp|0)),72)}<em>${x.L}</em><span class="avc">ĐỔI</span></div><div class="ib"><input class="oin pfn" maxlength="14" value="${esc(S.nick||"")}" onchange="S.nick=this.value.trim().slice(0,14)||S.nick;sv();nickSrv()" ${S.acct?"":"disabled"}><div class="xpb"><u style="width:${x.pct}%"></u></div><small>${x.L>=50?"Cấp tối đa":`Cấp ${x.L} · ${x.cur}/${x.need} XP`}</small></div></div>
 <div class="stg"><div class="stt"><small>Xếp hạng PvP</small><b>${S.prp|0}</b>${tBadge(S.prp)}<small>${S.pvw|0} thắng · ${S.pvl|0} thua</small></div><div class="stt"><small>Xếp hạng AI</small><b>${S.rp|0}</b>${tBadge(S.rp)}<small>Cấp độ AI ${tIx(S.rp)*2}</small></div><div class="stt"><small>Kỷ lục sinh tồn</small><b>${S.best|0}</b><small>trận liền</small></div><div class="stt"><small>Tổng thắng / trận</small><b>${S.tw|0}/${tot}</b><small>${tot?Math.round((S.tw|0)/tot*100):0}% thắng</small></div><div class="stt"><small>Tướng sở hữu</small><b>${S.own.length}/12</b><small>${S.te} Tinh Hoa</small></div><div class="stt"><small>Tướng hay dùng</small><b>${top>=0?H[top][0]:"–"}</b><small>${top>=0?S.hs[top][1]+" thắng / "+tp+" trận":"Chưa có"}</small></div></div>
-<button class="btn" onclick="pRank(0)">XEM BẢNG XẾP HẠNG</button><button class="btn dk sm" onclick="pTerms()">ĐIỀU KHOẢN & QUYỀN RIÊNG TƯ</button>${S.acct?'<button class="btn dk" onclick="logout()">ĐĂNG XUẤT</button><button class="btn dk sm" style="opacity:.75" onclick="pDel()">XÓA TÀI KHOẢN</button>':'<button class="btn big" onclick="pAuth()">ĐĂNG NHẬP ĐỂ LƯU TIẾN TRÌNH</button>'}`)}
+<button class="btn" onclick="pRank(0)">XEM BẢNG XẾP HẠNG</button>${S.adm?'<button class="btn big" onclick="pAdmin()">📊 BẢNG QUẢN TRỊ</button>':''}<button class="btn dk sm" onclick="pTerms()">ĐIỀU KHOẢN & QUYỀN RIÊNG TƯ</button>${S.acct?'<button class="btn dk" onclick="logout()">ĐĂNG XUẤT</button><button class="btn dk sm" style="opacity:.75" onclick="pDel()">XÓA TÀI KHOẢN</button>':'<button class="btn big" onclick="pAuth()">ĐĂNG NHẬP ĐỂ LƯU TIẾN TRÌNH</button>'}`)}
 /* ===== ĐẤU AI ===== */
-const DFN=["Dễ","Thường","Khó","Ác mộng"],PDV=[0,1,3,6],DFD=["AI hay đi sai","Cân bằng","AI chọn nước đi tốt","AI gần như không sai, ra đòn nhanh"];
-function pAI(){const k=tIx(S.rp),pd=S.pd==null?1:S.pd;pg("ĐẤU AI",`<div class="dfw"><div class="dft">ĐỘ KHÓ LUYỆN TẬP</div><div class="dfr">${DFN.map((n,i)=>`<button class="${pd==i?"on":""}" onclick="S.pd=${i};sv();pAI()">${n}</button>`).join("")}</div><div class="dfd">${DFD[pd]}</div></div><button class="btn big" onclick="pk('a')">LUYỆN TẬP VỚI AI<br><small>Độ khó ${DFN[pd]} · không tính điểm xếp hạng</small></button><button class="btn big" onclick="pk('r')">XẾP HẠNG VỚI AI<br><small>${S.rp|0} điểm · ${tiers[k][0]} · thắng +25, thua −15</small></button><button class="btn big" onclick="streak=0;pk('s')">SINH TỒN AI<br><small>Kỷ lục: ${S.best|0} trận liền</small></button><button class="btn dk" onclick="pRank(${S.acct?1:0})">XEM BẢNG XẾP HẠNG</button>`)}
+const HMODS=[["MANA TRÀN","Cả hai bắt đầu với 50 mana",p=>p.forEach(x=>x.mp=50)],["GIÁP SẮT","Cả hai bắt đầu với khiên 20%",p=>p.forEach(x=>x.sh=20)],["LỬA CHÁY","Cả hai bị đốt 4 lượt",p=>p.forEach(x=>x.burn={tn:4,dm:4})],["MÁU MỎNG","Cả hai chỉ còn 90 máu",p=>p.forEach(x=>{x.hp=x.max=90})],["ĐỊCH KHỔNG LỒ","Địch 220 máu, bạn có sẵn 40 mana và khiên 15%",p=>{p[1].hp=p[1].max=220;p[0].mp=40;p[0].sh=15}]];
+function svCoin(){return mode=="a"?20:mode=="h"?30:mode=="s"?Math.min(10+5*Math.max(streak,1),60):50}
+function svSetup(m){window.HMOD=null;if(m=="s"){const w=streak+1,boss=w%5==0;let hp=120+15*streak;if(boss)hp=Math.round(hp*1.5);pl[1].hp=pl[1].max=hp;if(streak>0&&window.SVhp>0)pl[0].hp=Math.min(pl[0].max,window.SVhp+30);return[boss?"ẢI "+w+" · BOSS":"ẢI "+w,boss?"#ff5a4a":"#ffd23c"]}
+if(m=="h"){const k=HMODS[Math.random()*HMODS.length|0];k[2](pl);window.HMOD=k[0];return[k[0],"#7ad7ff"]}return null}
+function pAI(){const k=tIx(S.rp);pg("ĐẤU AI",`<div class="aiw"><div class="ait">ĐẤU TRẬN</div>
+<button class="btn big" onclick="pk('a')">ĐẤU THƯỜNG<br><small>Thắng +20 coin · không tính điểm xếp hạng</small></button>
+<button class="btn big" onclick="pk('r')">ĐẤU RANK<br><small>${S.rp|0} điểm · ${tiers[k][0]} · thắng +25, thua −15 · AI mạnh dần theo hạng</small></button>
+<div class="ait">SINH TỒN</div>
+<button class="btn big" onclick="streak=0;window.SVhp=0;pk('s')">VƯỢT ẢI<br><small>Máu giữ qua từng ải · địch mạnh dần · BOSS mỗi 5 ải<br>Kỷ lục: ${S.best|0} ải</small></button>
+<button class="btn big" onclick="pk('h')">ĐỘT BIẾN<br><small>Mỗi trận một luật ngẫu nhiên · thắng +30 coin</small></button></div>
+<button class="btn dk" onclick="pRank(${S.acct?1:0})">XEM BẢNG XẾP HẠNG</button>`)}
 const TUT=[["GHÉP Ô","Chạm một ô rồi chạm ô kề bên để đổi chỗ. Tạo hàng 3, 4 hoặc 5 ô cùng loại để kích hoạt. Ghép càng nhiều ô, hiệu ứng càng mạnh."],
 ["CÁC LOẠI Ô","Kiếm: gây sát thương. Tim: hồi máu. Khiên: giảm sát thương nhận vào. Lửa: sát thương và đốt. Mana: nạp năng lượng. Độc: trừ máu dần."],
 ["CHIÊU CUỐI","Đủ 80 Mana thì nút Chiêu Cuối sáng lên. Mỗi tướng có một chiêu riêng, dùng đúng lúc có thể lật ngược thế trận."],
@@ -1393,6 +1432,17 @@ PKP=PKP.filter(p=>{p.l-=dt;if(p.l<=0)return 0;p.vy+=p.g*dt;const f=Math.pow(p.d,
 if(p.k=="m"){const g=c.createRadialGradient(p.x,p.y,0,p.x,p.y,p.s*3);g.addColorStop(0,`rgba(${p.c},${a})`);g.addColorStop(1,`rgba(${p.c},0)`);c.fillStyle=g;c.beginPath();c.arc(p.x,p.y,p.s*3,0,6.28);c.fill()}
 else{c.strokeStyle=`rgba(${p.c},${a})`;c.lineWidth=p.s;c.lineCap="round";c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x-p.vx*.045,p.y-p.vy*.045);c.stroke()}return 1})};requestAnimationFrame(fr)}
 
+/* ===== ADMIN: lượt truy cập & người chơi ===== */
+function hitSid(){let s="";try{s=localStorage.getItem("hk_sid")||"";if(!s){s=(self.crypto&&crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now().toString(36));localStorage.setItem("hk_sid",s)}}catch(e){s=window._sid||(window._sid=String(Math.random()).slice(2)+Date.now())}return s}
+function hitStart(){if(window._hit)return;window._hit=1;const go=p=>{try{if(sb)sb.rpc("log_hit",{p_sid:hitSid(),p_ping:p})}catch(e){}};go(false);setInterval(()=>{if(!document.hidden)go(true)},120000)}
+async function chkAdmin(){S.adm=false;try{const r=await sb.rpc("is_admin");S.adm=r.data===true}catch(e){}}
+async function pAdmin(){pg("QUẢN TRỊ",'<p class="gi">Đang tải thống kê…</p>');let d=null;try{const r=await sb.rpc("admin_stats");d=r.data}catch(e){}
+if(!d){pg("QUẢN TRỊ",'<p class="gi">Không tải được thống kê (cần chạy SQL bước 10 và đăng nhập tài khoản admin).</p><button class="btn dk" onclick="pProfile()">‹ QUAY LẠI</button>');return}
+const n=v=>(v|0).toLocaleString("vi-VN"),box=(l,v,s)=>`<div class="adk"><small>${l}</small><b>${n(v)}</b>${s?`<em>${s}</em>`:""}</div>`,mx=Math.max(1,...d.days.map(x=>x.v));
+pg("QUẢN TRỊ",`<div class="adg">${box("Đang online",d.online,n(d.online_login)+" đã đăng nhập")}${box("Lượt truy cập hôm nay",d.visits_today,n(d.uniq_today)+" thiết bị")}${box("Truy cập 7 ngày",d.visits_7d,n(d.uniq_7d)+" thiết bị")}${box("Tổng lượt truy cập",d.visits_total)}${box("Tổng người chơi",d.players,"+"+n(d.new_today)+" hôm nay")}${box("Mới 7 ngày",d.new_7d)}${box("Hoạt động 24 giờ",d.active_24h,"người đã đăng nhập")}${box("Tổng số trận",d.matches)}</div>
+<div class="adc"><div class="adt">LƯỢT TRUY CẬP 7 NGÀY QUA</div><div class="adb">${d.days.map(x=>`<div><i style="height:${Math.max(3,Math.round(x.v/mx*100))}%"></i><b>${x.v}</b><small>${x.d}</small></div>`).join("")}</div></div>
+<button class="btn" onclick="pAdmin()">↻ LÀM MỚI</button><button class="btn dk" onclick="pProfile()">‹ QUAY LẠI</button>`)}
+
 /* ===== TÀI KHOẢN (Supabase) ===== */
 const SB_URL="https://jmopmxwbzujigkydwfgy.supabase.co",SB_KEY="sb_publishable__QlxybjgKqkeWU6DD0Rutw_jKLspyIj";
 let sb=null;
@@ -1451,7 +1501,7 @@ function applyState(d){S.sn=d.season?{id:d.season,left:d.sn_left,pend:!!d.sn_pen
 S.q={d:new Date().toDateString(),p:(d.q_prog||[]).concat([0,0,0,0,0,0]).slice(0,6),c:(d.q_done||[]).concat([0,0,0,0,0,0]).slice(0,6).map(x=>x?1:0)};
 S.prp=d.pvp_rp|0;S.pvw=d.pvp_wins|0;S.pvl=d.pvp_losses|0;S.best=d.surv_best|0;S.xp=d.xp|0;S.lvc=d.lvl_claimed||[];S.hs=d.hero_stats||{};S.tw=d.wins|0;S.tl=d.losses|0}
 async function syncState(){try{const r=await sb.rpc("get_state");if(r.data)applyState(r.data)}catch(e){}}
-async function loadProfile(){const u=(await sb.auth.getUser()).data.user;if(!u)throw 0;const r=await sb.rpc("get_state");if(r.error||!r.data)throw r.error||0;S.acct=u.id;applyState(r.data)}
+async function loadProfile(){const u=(await sb.auth.getUser()).data.user;if(!u)throw 0;const r=await sb.rpc("get_state");if(r.error||!r.data)throw r.error||0;S.acct=u.id;applyState(r.data);chkAdmin()}
 async function srvFinish(w){const q=window.QM||[0,0,0,0,0,0];window.QM=[0,0,0,0,0,0];const m=mode,st=streak,hh=mH;let d=null;try{const r=await sb.rpc("finish_match",{p_mode:m,p_result:w==0?1:w<0?-1:0,p_ult:q[2]>0,p_big:Math.min(q[3]|0,50),p_hero:hh,p_streak:st});d=r.data}catch(e){}await syncState();rsxFrom(d)}
 async function gachaSrv(){if(gBusy)return;if(S.coin<300){gmsg="Không đủ coin (cần 300)";return pGacha()}gBusy=1;let r;try{r=await sb.rpc("gacha_pull")}catch(e){r={error:e}}
 if(r.error||!r.data){gBusy=0;gmsg="Lỗi kết nối, chưa bị trừ coin. Thử lại.";await syncState();return pGacha()}
@@ -1463,7 +1513,7 @@ async function ctSrv(i){if(!(S.pass>=40*(i+1)&&!S.pt.includes(i)))return;try{awa
 async function setHeroSrv(i){if(S.acct&&sb)try{await sb.rpc("set_hero",{h:i})}catch(e){}}
 async function nickSrv(){if(S.acct&&sb)try{await sb.from("profiles").update({nick:S.nick}).eq("id",S.acct)}catch(e){}}
 async function logout(){pvpLeave();try{await sb.auth.signOut()}catch(e){}S.acct=null;location.reload()}
-async function boot(){const rec=/type=recovery/.test(location.hash),hh=location.hash;sbInit();if(!sb){menu();return}
+async function boot(){const rec=/type=recovery/.test(location.hash),hh=location.hash;sbInit();if(!sb){menu();return}hitStart();
 try{if(rec){if(sb.mini)await sb.auth.fromHash(hh);try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}const r0=await sb.auth.getSession();if(r0.data&&r0.data.session){pReset();return}}}catch(e){}
 try{const r=await sb.auth.getSession();if(r.data&&r.data.session){await loadProfile();menu();return}}catch(e){}pAuth()}
 
