@@ -522,6 +522,8 @@ html,body{height:100dvh}
 .lgor{display:flex;align-items:center;gap:10px;color:#a89068;font-size:12px}
 .lgor::before,.lgor::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#0000,#7a5a2a,#0000)}
 .lgg small{opacity:.7;font-weight:600}
+.lgo{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin:2px 0;padding:11px 14px;border:0;border-radius:12px;background:#fff;color:#2b2b2b;font:700 13px/1 inherit;letter-spacing:.06em;cursor:pointer;box-shadow:0 2px 8px #0006}
+.lgo:active{transform:scale(.98)}.lgo svg{flex:none}.lgo b{font-weight:800}
 .lgt{margin-top:2px}.lgv{text-align:center;font-size:10px;letter-spacing:.14em;color:#7a6440;text-transform:uppercase}
 /* ===== MENU: thanh điều hướng dưới ===== */
 #sc>.ft.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border:2px solid #f2c86277;border-radius:18px;background:linear-gradient(#2a0c08f0,#120403f5);box-shadow:0 0 0 2px #1a0604,0 -4px 18px #0008;margin-top:2px}
@@ -931,6 +933,7 @@ img.rkl2{object-fit:contain}.rkl2.lkd{filter:grayscale(.9) brightness(.5)}
 .lgh{font-size:11px!important;line-height:1.4;margin:2px 0 6px!important;text-align:left}
 .sec{margin:8px 0;padding:10px 12px;border:1px solid #f2c86255;border-radius:12px;background:#1e0a06;display:flex;flex-direction:column;gap:4px;text-align:left}
 .sec b{color:#ffe9a8;font-size:14px}.sec small{color:#cdb98c;font-size:11.5px;line-height:1.4}.sec span{color:#fff;font-weight:700;word-break:break-all}.sec.ok{border-color:#6fcf7a88;background:#10240f}.sec.ok b{color:#9be08a}
+.sec .lgo b,.lgo b{color:#2b2b2b!important;font-size:13px}
 /* ===== Cấp độ · nhiệm vụ · xếp hạng · hồ sơ ===== */
 .mtl{display:flex;align-items:center;gap:8px;min-width:0}
 .lvc{display:flex;flex-direction:column;gap:3px;min-width:62px;padding:5px 10px 6px;border:2px solid #f2c862;border-radius:14px;background:linear-gradient(#3e160c,#1c0804);box-shadow:0 0 0 2px #2a0f08,0 3px 6px #000a;cursor:pointer}
@@ -1547,7 +1550,7 @@ el.innerHTML=h}
 function pProfile(){const x=xpInfo(),h=S.hero!=null&&S.own.includes(S.hero)?S.hero:S.own[0],tot=(S.tw|0)+(S.tl|0);let top=-1,tp=0;Object.keys(S.hs||{}).forEach(k=>{if(S.hs[k][0]>tp){tp=S.hs[k][0];top=+k}});
 pg("HỒ SƠ",`<div class="pfb big"><div class="av" onclick="pAvatar()">${avt(avH(),tIx(Math.max(S.prp|0,S.rp|0)),72)}<em>${x.L}</em><span class="avc">ĐỔI</span></div><div class="ib">${nickBox()}<div class="xpb"><u style="width:${x.pct}%"></u></div><small>${x.L>=50?"Cấp tối đa":`Cấp ${x.L} · ${x.cur}/${x.need} XP`}</small></div></div>
 <div class="stg"><div class="stt"><small>Xếp hạng PvP</small><b>${S.prp|0}</b>${tBadge(S.prp)}<small>${S.pvw|0} thắng · ${S.pvl|0} thua</small></div><div class="stt"><small>Xếp hạng AI</small><b>${S.rp|0}</b>${tBadge(S.rp)}<small>Cấp độ AI ${tIx(S.rp)*2}</small></div><div class="stt"><small>Kỷ lục sinh tồn</small><b>${S.best|0}</b><small>trận liền</small></div><div class="stt"><small>Tổng thắng / trận</small><b>${S.tw|0}/${tot}</b><small>${tot?Math.round((S.tw|0)/tot*100):0}% thắng</small></div><div class="stt"><small>Tướng sở hữu</small><b>${S.own.length}/12</b><small>${S.te} Tinh Hoa</small></div><div class="stt"><small>Tướng hay dùng</small><b>${top>=0?H[top][0]:"–"}</b><small>${top>=0?S.hs[top][1]+" thắng / "+tp+" trận":"Chưa có"}</small></div></div>
-<div class="rkm" onclick="pRankInfo()">${tiers.map((t,i)=>`<div class="${i==tIx(Math.max(S.prp|0,S.rp|0))?"on":i>tIx(Math.max(S.prp|0,S.rp|0))?"lk":""}">${rkLogo(i,40,i>tIx(Math.max(S.prp|0,S.rp|0)))}<small>${t[0]}</small></div>`).join("")}</div><button class="btn" onclick="pRank(0)">XEM BẢNG XẾP HẠNG</button>${S.adm?'<button class="btn big" onclick="pAdmin()">📊 BẢNG QUẢN TRỊ</button>':''}<button class="btn dk sm" onclick="pGuide()">❓ HƯỚNG DẪN CHƠI</button><button class="btn dk sm" onclick="pTerms()">ĐIỀU KHOẢN & QUYỀN RIÊNG TƯ</button>${S.acct?'${secBox()}<button class="btn dk sm" onclick="pPw()">🔑 ĐỔI MẬT KHẨU</button><button class="btn dk" onclick="logout()">ĐĂNG XUẤT</button><button class="btn dk sm" style="opacity:.75" onclick="pDel()">XÓA TÀI KHOẢN</button>':'<button class="btn big" onclick="pAuth()">ĐĂNG NHẬP ĐỂ LƯU TIẾN TRÌNH</button>'}`)}
+<div class="rkm" onclick="pRankInfo()">${tiers.map((t,i)=>`<div class="${i==tIx(Math.max(S.prp|0,S.rp|0))?"on":i>tIx(Math.max(S.prp|0,S.rp|0))?"lk":""}">${rkLogo(i,40,i>tIx(Math.max(S.prp|0,S.rp|0)))}<small>${t[0]}</small></div>`).join("")}</div><button class="btn" onclick="pRank(0)">XEM BẢNG XẾP HẠNG</button>${S.adm?'<button class="btn big" onclick="pAdmin()">📊 BẢNG QUẢN TRỊ</button>':''}<button class="btn dk sm" onclick="pGuide()">❓ HƯỚNG DẪN CHƠI</button><button class="btn dk sm" onclick="pTerms()">ĐIỀU KHOẢN & QUYỀN RIÊNG TƯ</button>${S.acct?secBox()+'<button class="btn dk sm" onclick="pPw()">🔑 ĐỔI MẬT KHẨU</button><button class="btn dk" onclick="logout()">ĐĂNG XUẤT</button><button class="btn dk sm" style="opacity:.75" onclick="pDel()">XÓA TÀI KHOẢN</button>':'<button class="btn big" onclick="pAuth()">ĐĂNG NHẬP ĐỂ LƯU TIẾN TRÌNH</button>'}`)}
 /* ===== ĐẤU AI ===== */
 const HMODS=[
 ["LỬA ĐỊA NGỤC","fire","🔥","Ghép lửa: gây thêm 100% sát thương và đốt gấp đôi. Cả hai bên đều bị!",p=>{}],
@@ -1813,7 +1816,7 @@ const h=sl("bn","🔥","ĐỐT",bn)+sl("pz","☠️","ĐỘC",pz)+sl("sh",p.nosh
 /* ===== Bảo mật: liên kết Gmail bằng mã OTP ===== */
 function secBox(){if(!S.acct)return"";const u=S.uname?`<small>Tên đăng nhập: <b>${esc(S.uname)}</b></small>`:"";
 if(S.mail)return`<div class="sec ok">${u}<b>✔ Đã liên kết Gmail</b><span>${esc(S.mail)}</span><small>Có thể đăng nhập bằng Gmail này và dùng “Quên mật khẩu”.</small></div>`;
-return`<div class="sec">${u}<b>🔒 Bảo mật tài khoản</b><small>Liên kết Gmail, xác nhận bằng mã OTP, để lấy lại mật khẩu khi quên.</small><button class="btn sm" onclick="pLink()">LIÊN KẾT GMAIL</button></div>`}
+return`<div class="sec">${u}<b>🔒 Bảo mật tài khoản</b><small>Liên kết Gmail để đăng nhập nhanh và lấy lại tài khoản khi quên mật khẩu.</small><button class="lgo" onclick="gLink()"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1a6.2 6.2 0 010-12.4c1.97 0 3.3.84 4.05 1.56l2.76-2.66C17.04 3.2 14.77 2.2 12 2.2a9.8 9.8 0 100 19.6c5.66 0 9.4-3.98 9.4-9.58 0-.64-.07-1.13-.16-1.62z"/></svg><b>LIÊN KẾT VỚI GOOGLE</b></button><button class="btn sm dk" onclick="pLink()">hoặc liên kết bằng mã OTP</button><div id="lkm" class="ost"></div></div>`}
 function pLink(em){const sent=!!em;pg("LIÊN KẾT GMAIL",`<div class="ol" style="margin:0"><p class="osub">${sent?`Mã xác nhận đã gửi tới <b>${esc(em)}</b>. Mở Gmail (xem cả mục Spam) và nhập mã gồm các chữ số.`:"Nhập Gmail của bạn. Chúng tôi gửi một mã OTP để xác nhận bạn là chủ hộp thư."}</p>
 ${sent?`<label class="olb">Mã OTP<input id="lkc" class="oin" inputmode="numeric" autocomplete="one-time-code" maxlength="10" style="letter-spacing:.3em;text-align:center"></label><button class="btn big" onclick="lkVerify('${esc(em)}')">XÁC NHẬN</button><button class="btn dk sm" onclick="lkSend('${esc(em)}')">GỬI LẠI MÃ</button>`
 :`<label class="olb">Gmail<input id="lke" class="oin" type="email" inputmode="email" autocomplete="email" autocapitalize="off" style="letter-spacing:0;text-transform:none"></label><button class="btn big" onclick="lkSend()">GỬI MÃ OTP</button>`}
@@ -1864,7 +1867,7 @@ ${AUM?`<p class="lgs lgh">Dùng <b>tên đăng nhập</b> (chữ không dấu, s
 <button class="btn big lgb" onclick="doAuth(AUM)">${AUM?"TẠO TÀI KHOẢN":"ĐĂNG NHẬP"}</button>
 ${AUM?"":'<div class="lgl"><a href="javascript:pForgot()">Quên mật khẩu?</a></div>'}
 <div id="aust" class="ost">${msg||""}</div></div>
-<div class="lgor"><span>hoặc</span></div><button class="btn dk sm lgg" onclick="S.acct=null;menu()">CHƠI KHÁCH <small>(không lưu online)</small></button>
+<div class="lgor"><span>hoặc</span></div><button class="lgo" onclick="gLogin()"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1a6.2 6.2 0 010-12.4c1.97 0 3.3.84 4.05 1.56l2.76-2.66C17.04 3.2 14.77 2.2 12 2.2a9.8 9.8 0 100 19.6c5.66 0 9.4-3.98 9.4-9.58 0-.64-.07-1.13-.16-1.62z"/></svg><b>ĐĂNG NHẬP VỚI GOOGLE</b></button><button class="btn dk sm lgg" onclick="S.acct=null;menu()">CHƠI KHÁCH <small>(không lưu online)</small></button>
 <div class="lgl lgt">Khi đăng ký, bạn đồng ý với <a href="javascript:pTerms()">Điều khoản &amp; Quyền riêng tư</a></div><div class="lgv">Hào Kiệt Tranh Bá · Phiên bản 1.0</div></div>`;show("au")}
 async function doForgot(){const em=$("#aem").value.trim();if(!/^\S+@\S+\.\S+$/.test(em)){auMsg("Nhập email của bạn vào ô Email trước, rồi bấm Quên mật khẩu.");return}
 auMsg("Đang gửi...");try{const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.href.split("#")[0]});if(r.error){auMsg(esc(viErr(r.error.message)));return}auMsg("Nếu email đã đăng ký, bạn sẽ nhận được thư đặt lại mật khẩu. Mở thư và bấm liên kết.")}catch(e){auMsg("Không kết nối được máy chủ.")}}
@@ -1894,10 +1897,17 @@ async function cqSrv(i){if(!(S.q.p[i]>=QT[i]&&!S.q.c[i]))return;try{await sb.rpc
 async function ctSrv(i){if(!(S.pass>=40*(i+1)&&!S.pt.includes(i)))return;try{await sb.rpc("claim_pass",{p_i:i})}catch(e){}await syncState();pPass()}
 async function setHeroSrv(i){if(S.acct&&sb)try{await sb.rpc("set_hero",{h:i})}catch(e){}}
 async function nickSrv(){if(S.acct&&sb)try{await sb.from("profiles").update({nick:S.nick}).eq("id",S.acct)}catch(e){}}
+const GRD=()=>location.origin+location.pathname;
+function gErrShow(){const m=window.OAE;if(!m)return;window.OAE=null;const t=/already|exists|linked|identity/i.test(m)?"Gmail Google này đã được dùng cho một tài khoản khác.":/manual|disabled|not enabled|provider/i.test(m)?"Chưa bật đăng nhập Google ở máy chủ. Báo quản trị viên.":m;setTimeout(()=>{try{pg("GOOGLE",`<div class="ol" style="margin:0"><p class="osub">${esc(t)}</p></div><button class="btn dk" onclick="pProfile()">‹ QUAY LẠI HỒ SƠ</button>`)}catch(e){alert(t)}},300)}
+function gLogin(){if(!SB_URL){auMsg("Chưa kết nối máy chủ.");return}auMsg("Đang chuyển sang Google...");location.href=SB_URL+"/auth/v1/authorize?provider=google&redirect_to="+encodeURIComponent(GRD())}
+async function gLink(){const m=$("#lkm");if(m){m.textContent="Đang chuyển sang Google...";m.style.color="#9be08a"}
+try{const s=(await sb.auth.getSession()).data.session;if(!s)throw 0;const r=await fetch(SB_URL+"/auth/v1/user/identities/authorize?provider=google&skip_http_redirect=true&redirect_to="+encodeURIComponent(GRD()),{headers:{apikey:SB_KEY,Authorization:"Bearer "+s.access_token}});const j=await r.json();if(!r.ok||!j.url)throw new Error(j.msg||j.message||j.error_description||"x");location.href=j.url}catch(e){const t=/manual|disabled/i.test(String(e.message))?"Máy chủ chưa bật “Allow manual linking”.":/provider|not enabled/i.test(String(e.message))?"Máy chủ chưa bật đăng nhập Google.":"Không chuyển được sang Google. Thử lại sau.";if(m){m.textContent=t;m.style.color="#ff9a8a"}else alert(t)}}
 async function logout(){pvpLeave();try{await sb.auth.signOut()}catch(e){}S.acct=null;location.reload()}
-async function boot(){const rec=/type=recovery/.test(location.hash),hh=location.hash;sbInit();if(!sb){menu();return}hitStart();
+async function boot(){const rec=/type=recovery/.test(location.hash),hh=location.hash,oq=new URLSearchParams(hh.replace(/^#/,"")+"&"+location.search.replace(/^\?/,""));sbInit();if(!sb){menu();return}hitStart();
+if(oq.get("error_description")||oq.get("error")){window.OAE=oq.get("error_description")||oq.get("error");try{history.replaceState(null,"",location.pathname)}catch(e){}}
+else if(!rec&&oq.get("access_token")){try{if(sb.mini)await sb.auth.fromHash(hh);else await new Promise(r=>setTimeout(r,400))}catch(e){}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
 try{if(rec){if(sb.mini)await sb.auth.fromHash(hh);try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}const r0=await sb.auth.getSession();if(r0.data&&r0.data.session){pReset();return}}}catch(e){}
-try{const r=await sb.auth.getSession();if(r.data&&r.data.session){await loadProfile();menu();return}}catch(e){}pAuth()}
+try{const r=await sb.auth.getSession();if(r.data&&r.data.session){await loadProfile();menu();gErrShow();return}}catch(e){}pAuth();gErrShow()}
 
 let fgT=0;
 function pForgot(sent){const v=($("#aem")&&$("#aem").value)||window.FGE||"";window.FGE=v;
