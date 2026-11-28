@@ -936,6 +936,14 @@ img.rkl2{object-fit:contain}.rkl2.lkd{filter:grayscale(.9) brightness(.5)}
 .sec .lgo b,.lgo b{color:#2b2b2b!important;font-size:13px}
 .fgd{margin:10px 0;text-align:left}.fgd summary{cursor:pointer;color:#e8c46a;font-size:13px;margin-bottom:6px}.fgok small{display:block;margin-top:8px;opacity:.8}
 .dbg{margin:8px 12px;padding:6px 8px;border:1px dashed #7a5a2a;border-radius:8px;font-size:11px;color:#c9b27a;text-align:center;word-break:break-word}
+/* ===== Màn chiến đấu: bố cục cho máy cao ===== */
+#bt #bw{flex:0 1 auto!important;width:100%;aspect-ratio:1/1;min-height:0!important}
+#bt #fd{flex:1 1 auto;min-height:56px!important;max-height:180px;margin:2px 0;padding:8px 12px;border:1px solid #7a5a2a88;border-radius:12px;background:linear-gradient(#0000007a,#00000040);justify-content:center;font-size:13px!important;overflow:hidden}
+#bt .bot{grid-template-columns:1fr 1.5fr .75fr;margin-top:auto}
+#bt .bot #bQ{font-size:12px!important;opacity:.85}
+#bt .bot #bU small{font-size:11px;letter-spacing:.06em}
+#bt #fd:empty::before{content:"Diễn biến trận đấu hiện ở đây";font-weight:600;opacity:.35;font-size:12px}
+#bt #fd{max-height:150px!important}
 /* ===== Cấp độ · nhiệm vụ · xếp hạng · hồ sơ ===== */
 .mtl{display:flex;align-items:center;gap:8px;min-width:0}
 .lvc{display:flex;flex-direction:column;gap:3px;min-width:62px;padding:5px 10px 6px;border:2px solid #f2c862;border-radius:14px;background:linear-gradient(#3e160c,#1c0804);box-shadow:0 0 0 2px #2a0f08,0 3px 6px #000a;cursor:pointer}
@@ -1248,7 +1256,7 @@ function upd(){if(!pl)return;[0,1].forEach(o=>{const p=pl[o],q=$("#p"+o);if(q.da
 const Q=x=>q.querySelector(x),e=shv(p),pc=p.hp/p.max*100+"%";Q(".pr").className="pr"+(turn==o?" act":"");Q(".hp u").style.width=pc;Q(".hp i").style.width=pc;Q(".hp em").textContent=p.hp+"/"+p.max;Q(".mp u").style.width=Math.min(100,p.mp/80*100)+"%";Q(".mp em").textContent=p.mp+"/80";Q(".mp").className="bar mp"+(p.mp>=80?" g80":p.mp>=60?" g60":"");
 const sg=[!!p.burn,!!p.poi,Math.round(e)].join();if(q.dataset.s!=sg){q.dataset.s=sg;Q(".sts").innerHTML=`${p.burn?`<img src="${FIRE}">`:""}${p.poi?IC[5]:""}${e>0?`<span class="shp">${IC[2]}${Math.round(e)}%</span>`:""}`}});
 $("#tm").textContent=Math.max(0,Math.ceil(tt));$("#tm").style.borderColor=tt<=5?"#ff3a2a":"#ffd23c";{const sc=Math.ceil(tt);$("#clk").classList.toggle("warn",tt<=5&&tt>0);if(tt<=5&&sc>0&&sc!=lastSec&&!ended)snd("t");lastSec=sc}$("#bd").classList.toggle("me",turn==0);$("#bd").classList.toggle("ai",turn==1);$("#bw").classList.toggle("ai",turn==1);$("#tn").textContent=`Lượt ${Math.min(tot,16)}/16 · ${turn?(pvp?"ĐỐI THỦ":"AI"):"BẠN"}`;
-const k=pl[1].hp<20,ok=!(turn!=0||busy||stunned||pl[0].mp<80);$("#bUt").textContent=k?"KẾT LIỄU":"TUYỆT KỸ";$("#bUs").textContent=pl[0].mp>=80?"SẴN SÀNG":pl[0].mp+"/80";$("#bU").className="btn"+(k?" kill":"")+(ok?" rdy":"");
+const k=pl[1].hp<20,ok=!(turn!=0||busy||stunned||pl[0].mp<80);$("#bUt").textContent=k?"KẾT LIỄU":"TUYỆT KỸ";$("#bUs").textContent=pl[0].mp>=80?(ok?"SẴN SÀNG":"CHỜ LƯỢT"):pl[0].mp+"/80";$("#bU").className="btn"+(k?" kill":"")+(ok?" rdy":"");
 $("#bU").disabled=!ok;$("#bE").disabled=turn!=0||busy||stunned;$("#sm").style.opacity=S.mus===0?.4:1;$("#sf").style.opacity=S.sfx===0?.4:1}
 $("#bE").onclick=()=>{if(turn==0&&!busy)myEnd()};$("#bU").onclick=()=>{myUlt()};
 $("#sm").onclick=()=>{S.mus=S.mus===0?1:0;sv();upd()};$("#sf").onclick=()=>{S.sfx=S.sfx===0?1:0;sv();upd()};
@@ -1757,7 +1765,7 @@ pg("QUẢN TRỊ",`<div class="adg">${box("Đang online",d.online,n(d.online_log
 <button class="btn" onclick="pAdmin()">↻ LÀM MỚI</button><button class="btn dk" onclick="pProfile()">‹ QUAY LẠI</button>`)}
 
 /* ===== Nhật ký hành động trong trận ===== */
-(function(){const f0=flt;flt=function(o,t,c){f0(o,t,c);try{const f=$("#fd");if(!f||ended)return;const who=o?(pvp?"Đối thủ":"AI"):"Bạn",d=document.createElement("span");d.style.color=c;d.textContent=who+" "+t.replace("-","−");f.appendChild(d);while(f.children.length>3)f.firstChild.remove()}catch(e){}};
+(function(){const f0=flt;flt=function(o,t,c){f0(o,t,c);try{if(/^\+0(\s|$)/.test(String(t)))return;const f=$("#fd");if(!f||ended)return;const who=o?(pvp?"Đối thủ":"AI"):"Bạn",d=document.createElement("span");d.style.color=c;d.textContent=who+" "+t.replace("-","−");f.appendChild(d);while(f.children.length>4)f.firstChild.remove()}catch(e){}};
 const s0=start;start=function(m,h){const f=$("#fd");if(f)f.innerHTML="";return s0(m,h)}})();
 /* ===== Kết quả trận kiểu rank-up ===== */
 function rsBuild(win,w,c,ex){const t=win?"CHIẾN THẮNG":w<0?"HÒA":"THẤT BẠI",cl=win?"win":w<0?"dr":"lose";let mid="";
@@ -1766,7 +1774,7 @@ mid=`<div class="rzr"><div class="rzt">${rkLogo(k,56)}<b>${tiers[k][0].toUpperCa
 else if(mode=="s"){const n=win?streak:Math.max(0,(window._lastStreak||0));const tot=Math.max(5,Math.ceil((streak+1)/5)*5);mid=`<div class="rzr"><div class="rzt"><b>VƯỢT ẢI</b><span>${win?"Ải kế tiếp: "+(streak+1)+((streak+1)%5==0?" · BOSS":""):"Kỷ lục "+S.best+" ải"}</span></div><div class="rzp">${[...Array(tot)].map((_,i)=>`<i class="${win&&i<streak?"on":""}${(i+1)%5==0?" bs":""}"></i>`).join("")}</div></div>`}
 $("#rs").innerHTML=`<div class="bx rbx ${cl}"><div class="rzh"><small>${mode=="r"?"ĐẤU RANK":mode=="s"?"SINH TỒN · VƯỢT ẢI":mode=="h"?"SINH TỒN · ĐỘT BIẾN":mode=="p"?(pvp&&pvp.fr?"ĐẤU PHÒNG · THƯỜNG":"ĐẤU NGƯỜI · RANK"):"ĐẤU THƯỜNG"}</small><h1>${t}</h1></div>
 <div class="rzc"><span class="rzn">${c>0?"+"+c:"0"}</span><small>${c>0?"coin":"không nhận coin"}</small></div>${mid}<p class="rze">${mode=="r"?"":ex}</p><div id="rsx" class="rsx"></div>
-<button class="btn" onclick="again()">${mode=="s"&&win?"ẢI TIẾP THEO":mode=="s"?"CHƠI LẠI TỪ ĐẦU":"ĐẤU LẠI"}</button><button class="btn dk" onclick="menu()">VỀ MENU</button></div>`;
+<button class="btn" onclick="again()">${mode=="s"&&win?"ẢI TIẾP THEO":mode=="s"?"CHƠI LẠI TỪ ĐẦU":win?"ĐẤU TIẾP":"ĐẤU LẠI"}</button><button class="btn dk" onclick="menu()">VỀ MENU</button></div>`;
 setTimeout(()=>{document.querySelectorAll("#rs .rzb u").forEach(u=>u.style.width=u.dataset.w+"%")},250)}
 /* ===== Chọn tướng kiểu Liên Quân (không độ hiếm) ===== */
 const ROLE=["Đỡ đòn","Sát thủ","Khống chế","Sát thủ","Hỗ trợ","Sát thủ","Pháp sư","Khống chế","Sát thủ","Sát thủ","Sát thủ","Hỗ trợ"],ROLES=["Tất cả","Đỡ đòn","Sát thủ","Pháp sư","Khống chế","Hỗ trợ"];let heroF=0;
