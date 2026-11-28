@@ -1906,8 +1906,8 @@ try{const s=(await sb.auth.getSession()).data.session;if(!s)throw 0;const r=awai
 async function logout(){pvpLeave();try{await sb.auth.signOut()}catch(e){}S.acct=null;location.reload()}
 async function boot(){const rec=/type=recovery/.test(location.hash),hh=location.hash,oq=new URLSearchParams(hh.replace(/^#/,"")+"&"+location.search.replace(/^\?/,""));sbInit();if(!sb){menu();return}hitStart();
 if(oq.get("error_description")||oq.get("error")){window.OAE=oq.get("error_description")||oq.get("error");try{history.replaceState(null,"",location.pathname)}catch(e){}}
-else if(!rec&&oq.get("access_token")){try{if(sb.mini)await sb.auth.fromHash(hh);else await new Promise(r=>setTimeout(r,400))}catch(e){}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
-try{if(rec){if(sb.mini)await sb.auth.fromHash(hh);try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}const r0=await sb.auth.getSession();if(r0.data&&r0.data.session){pReset();return}}}catch(e){}
+else if(oq.get("access_token")){try{if(sb.mini)await sb.auth.fromHash(hh);else{let g=await sb.auth.getSession();if(!(g.data&&g.data.session)&&oq.get("refresh_token"))await sb.auth.setSession({access_token:oq.get("access_token"),refresh_token:oq.get("refresh_token")})}}catch(e){}try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+if(rec){try{const r0=await sb.auth.getSession();if(r0.data&&r0.data.session){pReset();return}}catch(e){}window.OAE="Liên kết không hợp lệ hoặc đã hết hạn."}}
 try{const r=await sb.auth.getSession();if(r.data&&r.data.session){await loadProfile();menu();gErrShow();return}}catch(e){}pAuth();gErrShow()}
 
 let fgT=0;
